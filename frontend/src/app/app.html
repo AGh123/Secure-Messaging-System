@@ -1,0 +1,134 @@
+<p-toast></p-toast>
+
+<p-card header="CipherCapsule – Secure Messaging Demo" class="app">
+  <!-- ================= AUTH ================= -->
+  @if (!loggedIn()) {
+  <form class="app__auth" [formGroup]="authForm">
+    <h3 class="app__title">Login / Register</h3>
+
+    <input
+      pInputText
+      class="app__input"
+      placeholder="Username"
+      formControlName="username"
+      autocomplete="username"
+    />
+
+    <input
+      pInputText
+      type="password"
+      class="app__input"
+      placeholder="Password"
+      formControlName="password"
+      autocomplete="current-password"
+    />
+
+    <div class="app__actions">
+      <button
+        pButton
+        type="button"
+        label="Register"
+        [disabled]="authForm.invalid"
+        (click)="register()"
+      ></button>
+
+      <button
+        pButton
+        type="button"
+        label="Login"
+        severity="success"
+        [disabled]="authForm.invalid"
+        (click)="login()"
+      ></button>
+    </div>
+  </form>
+  }
+
+  <!-- ================= MAIN ================= -->
+  @if (loggedIn()) {
+  <header class="app__header">
+    <span class="app__user">
+      Logged in as <b>{{ currentUser() }}</b>
+    </span>
+
+    <button
+      pButton
+      type="button"
+      label="Logout"
+      severity="danger"
+      size="small"
+      (click)="logout()"
+    ></button>
+  </header>
+
+  <!-- ================= INBOX ================= -->
+  <section class="app__inbox">
+    <h3 class="app__title">Inbox</h3>
+
+    @if (inbox().length === 0) {
+    <p class="app__empty">No new messages</p>
+    }
+
+    <div class="app__inbox-list">
+      @for (item of inbox(); track item.from_user) {
+      <button
+        pButton
+        type="button"
+        outlined
+        class="app__inbox-item"
+        [label]="item.from_user + ' (' + item.count + ')'"
+        (click)="openMessage(item.from_user)"
+      ></button>
+      }
+    </div>
+  </section>
+
+  <!-- ================= USERS ================= -->
+  <section class="app__users">
+    <h3 class="app__title">Send Message</h3>
+
+    <div class="app__user-list">
+      @for (user of users(); track user) {
+      <button
+        pButton
+        type="button"
+        outlined
+        class="app__user-btn"
+        [label]="user"
+        (click)="selectUser(user)"
+      ></button>
+      }
+    </div>
+  </section>
+
+  <!-- ================= SEND ================= -->
+  @if (selectedUser()) {
+  <form class="app__send" [formGroup]="sendForm">
+    <h3 class="app__title">Send to {{ selectedUser() }}</h3>
+
+    <textarea
+      pTextarea
+      rows="3"
+      class="app__textarea"
+      placeholder="Type your message"
+      formControlName="message"
+    ></textarea>
+
+    <button
+      pButton
+      type="button"
+      label="Send"
+      [disabled]="sendForm.invalid"
+      (click)="sendMessage()"
+    ></button>
+  </form>
+  }
+
+  <!-- ================= MESSAGE ================= -->
+  @if (receivedMessage()) {
+  <div class="app__message">
+    <strong>Decrypted Message</strong>
+    <p>{{ receivedMessage() }}</p>
+  </div>
+  } }
+</p-card>

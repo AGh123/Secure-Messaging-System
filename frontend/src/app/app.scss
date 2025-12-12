@@ -1,0 +1,64 @@
+.app {
+  max-width: 640px;
+  margin: 2rem auto;
+
+  &__title {
+    margin-bottom: 0.5rem;
+  }
+
+  &__auth,
+  &__users,
+  &__send,
+  &__inbox {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
+  &__user {
+    font-size: 0.9rem;
+  }
+
+  &__input,
+  &__textarea {
+    width: 100%;
+  }
+
+  &__actions {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  &__user-list,
+  &__inbox-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  &__user-btn,
+  &__inbox-item {
+    min-width: 130px;
+  }
+
+  &__empty {
+    font-size: 0.85rem;
+    color: #6b7280;
+  }
+
+  &__message {
+    margin-top: 1rem;
+    padding: 0.75rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    background: #f9fafb;
+  }
+}

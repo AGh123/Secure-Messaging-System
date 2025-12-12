@@ -1,15 +1,24 @@
 from pydantic import BaseModel
 
 
+# -------------------------
+# Send message
+# -------------------------
 class SendMessageRequest(BaseModel):
-    sender: str
     receiver: str
     plaintext: str
 
 
-class SendMessageResponse(BaseModel):
-    message_id: int
+# -------------------------
+# Inbox item (badge UI)
+# -------------------------
+class InboxItem(BaseModel):
+    from_user: str
+    count: int
 
 
+# -------------------------
+# Read-once message
+# -------------------------
 class ReadMessageResponse(BaseModel):
     plaintext: str
