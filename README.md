@@ -1,235 +1,285 @@
-CipherCapsule – Ephemeral-Key Secure Messaging System
+# CipherCapsule – Ephemeral-Key Secure Messaging System
 
-CipherCapsule is a secure messaging system where each message is encrypted using a unique, one-time symmetric key derived from an ephemeral Diffie–Hellman exchange.
-Messages can be viewed only once and are permanently deleted after being read, ensuring strong confidentiality and forward secrecy.
+CipherCapsule is a secure messaging system where **each message is encrypted with a unique, one-time symmetric key** derived from an **ephemeral Diffie–Hellman (DH) exchange**.  
+Messages can be viewed **only once** and are **permanently deleted after being read**, ensuring strong confidentiality and **perfect forward secrecy**.
 
-This project was developed as a cryptography course project and demonstrates the practical integration of symmetric and asymmetric cryptography in a real application using FastAPI and Angular.
+This project was developed as part of a **cryptography course** and demonstrates the **practical integration of symmetric and asymmetric cryptography** in a real client–server application using **FastAPI** and **Angular**.
 
-✨ Key Features
+---
 
-🔐 Hybrid Cryptography
+## ✨ Key Features
 
-Ephemeral Diffie–Hellman key exchange
+### 🔐 Hybrid Cryptography
 
-AES-256-GCM for message encryption
+- Ephemeral Diffie–Hellman key exchange
+- AES-256-GCM for message encryption
+- RSA-2048 identity keys per user
 
-RSA-2048 identity keys per user
+### 🧨 Self-Destructing Messages
 
-🧨 Self-Destructing Messages
+- Messages are deleted immediately after being read
+- Refreshing the page does not restore messages
 
-Messages are deleted immediately after being read
+### 🪪 Secure Authentication
 
-Refreshing the page does not restore messages
+- Passwords hashed using **bcrypt**
+- Server-side session tokens
+- Backend is the single source of truth
 
-🪪 Secure Authentication
+### 📥 Inbox-Based UX
 
-Passwords hashed with bcrypt
+- No message IDs exposed to users
+- Inbox shows senders with unread message counts
+- Click-to-open, read-once behavior
 
-Server-side session tokens
+### 🧠 Forward Secrecy
 
-Backend is the single source of truth
+- Each message uses a fresh encryption key
+- Compromise of one key does not affect other messages
 
-📥 Inbox-Based UX
+---
 
-No message IDs exposed to users
+## 🏗️ Project Structure
 
-Inbox shows senders with unread message counts
+```
 
-Click-to-open, read-once behavior
-
-🧠 Forward Secrecy
-
-Each message uses a fresh encryption key
-
-Compromise of one key does not affect others
-
-🏗️ Project Structure
 Secure-Messaging-System/
 │
 ├── backend/
-│ └── app/
-│ ├── crypto/ # Cryptographic primitives (RSA, DH, AES-GCM)
-│ ├── models/ # SQLAlchemy models
-│ ├── routes/ # FastAPI routes (auth, messages)
-│ ├── schemas/ # Pydantic request/response schemas
-│ ├── database.py
-│ └── main.py
+│   ├── app/
+│   │   ├── crypto/        # Cryptographic primitives (RSA, DH, AES-GCM)
+│   │   ├── models/        # Database models
+│   │   ├── routes/        # FastAPI routes (auth, messages)
+│   │   ├── schemas/       # Request/response schemas
+│   │   ├── database.py
+│   │   └── main.py
+│   └── requirements.txt
 │
 ├── frontend/
-│ ├── src/
-│ │ ├── app/
-│ │ │ ├── models/ # Frontend data models
-│ │ │ ├── services/ # Angular services
-│ │ │ ├── app.ts
-│ │ │ ├── app.html
-│ │ │ └── app.scss
-│ │ ├── index.html
-│ │ ├── main.ts
-│ │ └── styles.scss
-│ └── angular.json
+│   ├── src/
+│   │   ├── app/
+│   │   │   ├── models/    # Frontend data models
+│   │   │   ├── services/  # Angular services
+│   │   │   ├── app.ts
+│   │   │   ├── app.html
+│   │   │   └── app.scss
+│   │   ├── index.html
+│   │   ├── main.ts
+│   │   └── styles.scss
+│   └── angular.json
 │
 └── README.md
 
-⚙️ Requirements
-Backend
+```
 
-Python 3.10+
+---
 
-pip
+## ⚙️ Requirements
 
-virtual environment recommended
+### Backend
 
-Frontend
+- Python **3.10+** (tested with Python 3.12)
+- `pip`
+- Virtual environment (recommended)
 
-Node.js 18+
+### Frontend
 
-npm
+- Node.js **18+**
+- `npm`
+- Angular CLI
 
-Angular CLI
+---
 
-🚀 How to Run the Project
-1️⃣ Backend Setup (FastAPI)
-Navigate to backend directory
+## 🚀 How to Run the Project (From Scratch)
+
+These steps assume a **completely clean laptop**.
+
+---
+
+## 1️⃣ Backend Setup (FastAPI)
+
+### Step 1: Navigate to backend directory
+
+```bash
 cd backend
+```
 
-Create and activate a virtual environment (recommended)
+### Step 2: Create and activate a virtual environment
+
+```bash
 python -m venv venv
-source venv/bin/activate # Linux / macOS
-venv\Scripts\activate # Windows
+```
 
-Install backend dependencies
+**Activate it:**
+
+- **Windows**
+
+```bash
+venv\Scripts\activate
+```
+
+- **macOS / Linux**
+
+```bash
+source venv/bin/activate
+```
+
+You should now see `(venv)` in your terminal.
+
+---
+
+### Step 3: Install backend dependencies
+
+```bash
 pip install -r requirements.txt
+```
 
-Run the backend server
+---
+
+### Step 4: Run the backend server
+
+```bash
 uvicorn app.main:app --reload
+```
 
 The backend will be available at:
 
+```
 http://127.0.0.1:8000
+```
 
-Test it quickly by opening:
+You can verify it by opening:
 
-http://127.0.0.1:8000/
+```
+http://127.0.0.1:8000/docs
+```
 
-Expected response:
+This shows the automatically generated FastAPI documentation.
 
-{ "status": "CipherCapsule backend running" }
+---
 
-2️⃣ Frontend Setup (Angular)
-Navigate to frontend directory
+## 2️⃣ Frontend Setup (Angular)
+
+Open a **new terminal window** (leave backend running).
+
+### Step 1: Navigate to frontend directory
+
+```bash
 cd frontend
+```
 
-Install frontend dependencies
+---
+
+### Step 2: Install frontend dependencies
+
+```bash
 npm install
+```
 
-Start Angular development server
+---
+
+### Step 3: Start the Angular development server
+
+```bash
 ng serve
+```
 
 The frontend will be available at:
 
+```
 http://localhost:4200
+```
 
-🧪 How to Use the Application
+---
 
-Register
+## 🧪 How to Use the Application
 
-Create a new username and password
+### Register
 
-Login
+- Create a new username and password
+- Passwords are hashed using bcrypt
 
-Authenticate and start a secure session
+### Login
 
-Inbox
+- Authenticate and start a secure session
 
-See senders who have sent you messages
+### Inbox
 
-Each sender shows a badge with the number of unread messages
+- View senders who have sent you messages
+- Each sender shows a badge with unread message count
 
-Send Message
+### Send Message
 
-Select a user from the user list
+- Select a user
+- Type and send a message
+- Message is encrypted using a one-time AES key
 
-Type a message and send it
+### Read Message
 
-Message is encrypted and stored temporarily
+- Click a sender in the inbox
+- Message is decrypted **once**
+- Message is immediately deleted from the database
 
-Read Message
+### Refresh Behavior
 
-Click a sender in the inbox
+- Once read, messages are permanently gone
+- Refreshing the page does not restore them
 
-Message is decrypted and displayed once
+---
 
-Message is immediately deleted from the database
+## 🔐 Security Design Overview
 
-Refresh Behavior
+### Cryptographic Workflow
 
-Once read, messages are gone permanently
+1. Sender generates an ephemeral Diffie–Hellman key pair
+2. A one-time shared secret is derived
+3. An AES-256-GCM key is derived from the shared secret
+4. Message is encrypted and stored temporarily
 
-Refreshing the page does not restore them
+On message read:
 
-🔐 Security Design Overview
-Cryptographic Workflow
+- Message is decrypted
+- Ciphertext and encryption keys are deleted
 
-Sender generates an ephemeral Diffie–Hellman key pair
+---
 
-A one-time shared secret is derived
+### Why This Is Secure
 
-An AES-256-GCM key is derived from the shared secret
-
-The message is encrypted and stored temporarily
-
-On read:
-
-The message is decrypted
-
-The ciphertext and encryption key are deleted
-
-Why This Is Secure
-
-✔ Forward secrecy
-
+✔ Perfect forward secrecy
 ✔ No long-term symmetric keys
-
-✔ No message replay
-
 ✔ No plaintext message storage
-
+✔ No message replay
 ✔ Backend-verified authentication
 
-🧠 Important Design Decisions
+---
 
-Sender identity is never trusted from the client
+## 🧠 Important Design Decisions
 
-Backend derives sender identity from the session token
+- Sender identity is never trusted from the client
+- Backend derives sender identity from session tokens
+- Message IDs are never exposed to users
+- Only minimal plaintext metadata is stored
+- Backend is the authoritative source of authentication
 
-Message IDs are never exposed to users
+These decisions mirror real secure messaging system designs.
 
-Only minimal plaintext metadata is stored for inbox functionality
+---
 
-Backend is the authoritative source of authentication state
+## 🛠️ Development Notes
 
-These decisions balance security, correctness, and usability, similar to real secure messaging systems.
+- Database: SQLite (created automatically on backend startup)
+- CORS enabled for local development
+- Designed for educational and demonstration purposes
+- Not intended for production use without further hardening
 
-🛠️ Development Notes
+---
 
-Database: SQLite (automatically created on backend startup)
-
-CORS enabled for local development
-
-Designed for educational and demonstration purposes
-
-Not intended for production deployment without further hardening
-
-🧑‍🎓 Academic Context
+## 🧑‍🎓 Academic Context
 
 This project demonstrates:
 
-Symmetric cryptography (AES-256-GCM)
-
-Asymmetric cryptography (RSA, Diffie–Hellman)
-
-Hybrid encryption design
-
-Secure session management
-
-Practical cryptographic system implementation
+- Symmetric cryptography (AES-256-GCM)
+- Asymmetric cryptography (RSA-2048, Diffie–Hellman)
+- Hybrid encryption design
+- Secure session management
+- Practical cryptographic system implementation
