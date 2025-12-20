@@ -38,9 +38,6 @@ export class AuthService {
     );
   }
 
-  /**
-   * Verify session on app startup / refresh
-   */
   me() {
     const token = this.session.token();
     if (!token) return;

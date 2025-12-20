@@ -41,8 +41,6 @@ export class App implements OnInit {
   private session = inject(SessionService);
   private toast = inject(ToastService);
 
-  /* ================= FORMS ================= */
-
   authForm = this.fb.nonNullable.group({
     username: ['', [Validators.required, Validators.minLength(3)]],
     password: ['', [Validators.required, Validators.minLength(6)]],
@@ -52,8 +50,6 @@ export class App implements OnInit {
     message: ['', Validators.required],
   });
 
-  /* ================= STATE ================= */
-
   users = signal<string[]>([]);
   inbox = signal<{ from_user: string; count: number }[]>([]);
   selectedUser = signal<string | null>(null);
@@ -61,8 +57,6 @@ export class App implements OnInit {
 
   currentUser = computed(() => this.session.user()?.username ?? '');
   loggedIn = computed(() => this.session.isLoggedIn());
-
-  /* ================= INIT ================= */
 
   ngOnInit() {
     this.authService.me()?.subscribe({
@@ -74,8 +68,6 @@ export class App implements OnInit {
       error: () => this.session.clear(),
     });
   }
-
-  /* ================= AUTH ================= */
 
   register() {
     if (this.authForm.invalid) return;
@@ -129,8 +121,6 @@ export class App implements OnInit {
     });
   }
 
-  /* ================= USERS ================= */
-
   loadUsers() {
     this.authService.getUsers().subscribe((users) => this.users.set(users));
   }
@@ -139,8 +129,6 @@ export class App implements OnInit {
     this.selectedUser.set(user);
     this.sendForm.reset();
   }
-
-  /* ================= MESSAGES ================= */
 
   loadInbox() {
     this.messageService.getInbox().subscribe((data) => this.inbox.set(data));

@@ -3,7 +3,6 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.database import Base, engine
 
-# Import models so SQLAlchemy registers tables
 from app.models import user, message, session
 
 from app.routes import auth, messages
@@ -14,7 +13,6 @@ app = FastAPI(
     version="1.0.0",
 )
 
-# ✅ CORS MUST be added immediately after app creation
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[

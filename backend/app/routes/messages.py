@@ -12,10 +12,6 @@ from app.routes.auth import get_current_user
 
 router = APIRouter()
 
-
-# -------------------------
-# Database dependency
-# -------------------------
 def get_db():
     db = SessionLocal()
     try:
@@ -23,10 +19,6 @@ def get_db():
     finally:
         db.close()
 
-
-# -------------------------
-# Send encrypted message
-# -------------------------
 @router.post("/send")
 def send_message(
     data: SendMessageRequest,
@@ -56,10 +48,6 @@ def send_message(
 
     return {"message": "Message sent"}
 
-
-# -------------------------
-# Inbox
-# -------------------------
 @router.get("/inbox", response_model=list[InboxItem])
 def inbox(
     db: Session = Depends(get_db),
@@ -80,10 +68,6 @@ def inbox(
         for sender, count in inbox.items()
     ]
 
-
-# -------------------------
-# Open message (FIXED)
-# -------------------------
 class OpenMessageRequest(BaseModel):
     from_user: str
 

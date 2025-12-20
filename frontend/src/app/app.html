@@ -1,7 +1,6 @@
 <p-toast></p-toast>
 
 <p-card header="CipherCapsule – Secure Messaging Demo" class="app">
-  <!-- ================= AUTH ================= -->
   @if (!loggedIn()) {
   <form class="app__auth" [formGroup]="authForm">
     <h3 class="app__title">Login / Register</h3>
@@ -42,10 +41,7 @@
       ></button>
     </div>
   </form>
-  }
-
-  <!-- ================= MAIN ================= -->
-  @if (loggedIn()) {
+  } @if (loggedIn()) {
   <header class="app__header">
     <span class="app__user">
       Logged in as <b>{{ currentUser() }}</b>
@@ -61,7 +57,6 @@
     ></button>
   </header>
 
-  <!-- ================= INBOX ================= -->
   <section class="app__inbox">
     <h3 class="app__title">Inbox</h3>
 
@@ -83,7 +78,6 @@
     </div>
   </section>
 
-  <!-- ================= USERS ================= -->
   <section class="app__users">
     <h3 class="app__title">Send Message</h3>
 
@@ -101,7 +95,6 @@
     </div>
   </section>
 
-  <!-- ================= SEND ================= -->
   @if (selectedUser()) {
   <form class="app__send" [formGroup]="sendForm">
     <h3 class="app__title">Send to {{ selectedUser() }}</h3>
@@ -122,10 +115,7 @@
       (click)="sendMessage()"
     ></button>
   </form>
-  }
-
-  <!-- ================= MESSAGE ================= -->
-  @if (receivedMessage()) {
+  } @if (receivedMessage()) {
   <div class="app__message">
     <strong>Decrypted Message</strong>
     <p>{{ receivedMessage() }}</p>

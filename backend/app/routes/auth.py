@@ -11,9 +11,6 @@ from app.routes.session_utils import create_session, delete_session
 
 router = APIRouter()
 
-# -------------------------
-# Database dependency
-# -------------------------
 def get_db():
     db = SessionLocal()
     try:
@@ -21,10 +18,6 @@ def get_db():
     finally:
         db.close()
 
-
-# -------------------------
-# Auth dependency (FIXED)
-# -------------------------
 def get_current_user(
     authorization: str | None = Header(default=None),
     db: Session = Depends(get_db),
@@ -47,10 +40,6 @@ def get_current_user(
 
     return user
 
-
-# -------------------------
-# Register
-# -------------------------
 @router.post("/register")
 def register(data: RegisterRequest, db: Session = Depends(get_db)):
     existing = db.query(User).filter(User.username == data.username).first()
@@ -74,9 +63,6 @@ def register(data: RegisterRequest, db: Session = Depends(get_db)):
     return {"message": "User registered successfully"}
 
 
-# -------------------------
-# Login
-# -------------------------
 @router.post("/login")
 def login(data: LoginRequest, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.username == data.username).first()
@@ -88,10 +74,6 @@ def login(data: LoginRequest, db: Session = Depends(get_db)):
 
     return {"token": token}
 
-
-# -------------------------
-# Logout
-# -------------------------
 @router.post("/logout")
 def logout(
     authorization: str | None = Header(default=None),
@@ -103,18 +85,10 @@ def logout(
     delete_session(db, authorization)
     return {"message": "Logged out successfully"}
 
-
-# -------------------------
-# Who am I?
-# -------------------------
 @router.get("/me")
 def me(current_user: User = Depends(get_current_user)):
     return {"username": current_user.username}
 
-
-# -------------------------
-# List users
-# -------------------------
 @router.get("/users")
 def list_users(
     current_user: User = Depends(get_current_user),
